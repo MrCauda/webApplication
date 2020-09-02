@@ -1,2 +1,2 @@
 # webApplication
-persona learning
+Simple springboot project
