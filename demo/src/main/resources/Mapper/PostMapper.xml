@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.Mapper.PostServiceMapper">
+    <select id="queryPost" resultType="java.util.HashMap">
+        select * from app_post
+        where 1 = 1
+        <if test="userUuid != null and userUuid != ''">
+            and user_uuid = #{userUuid}
+        </if>
+        <if test="tag != null and tag != ''">
+            and tag = #{tag}
+        </if>
+        order by create_time desc
+        limit #{from}, #{offset}
+    </select>
+
+    <delete id="deletePost">
+        delete from app_post
+        where uuid = #{uuid}
+        and user_uuid = #{userUuid}
+    </delete>
+
+    <insert id="createPost">
+        insert into app_post (user_uuid, title, uuid
+        <if test="description != null and description != ''">
+            , description
+        </if>
+        <if test="tag != null and tag != ''">
+            , tag
+        </if>
+        <if test="type != null">
+            , type
+        </if>
+        <if test="filePath != null and filePath != ''">
+            , file_Path
+        </if>
+        ) values (#{userUuid}, #{title}, #{uuid}
+        <if test="description != null and description != ''">
+            , #{description}
+        </if>
+        <if test="tag != null and tag != ''">
+            , #{tag}
+        </if>
+        <if test="type != null">
+            , #{type}
+        </if>
+        <if test="filePath != null and filePath != ''">
+            , #{filePath}
+        </if>
+        )
+    </insert>
+
+    <update id="updatePost">
+        update app_post set
+        uuid = #{uuid}
+        <if test="title != null and title != ''">
+            , title = #{title}
+        </if>
+        <if test="description != null and description != ''">
+            , description = #{description}
+        </if>
+        <if test="tag != null and tag != ''">
+            , tag = #{tag}
+        </if>
+        <if test="filePath != null and filePath != ''">
+            , file_path = #{filePath}
+        </if>
+        where uuid = #{uuid} and user_uuid = #{userUuid}
+    </update>
+</mapper>
